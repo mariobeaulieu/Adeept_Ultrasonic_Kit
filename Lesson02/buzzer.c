@@ -20,12 +20,13 @@ void *doBeeps(void* t)
 	int beepLength;
 
 	beepLength = (int)t;
-	while(1){
-		digitalWrite(BeepPin, LOW);  //beep on
-		delay(beepLength);           //delay
-		digitalWrite(BeepPin, HIGH); //beep off
-		delay(beepLength);           //delay
+	while(beepLength > 1){
+		digitalWrite(BeepPin, HIGH);  //beep on
+		delay(beepLength);            //delay
+		digitalWrite(BeepPin, LOW );  //beep off
+		delay(beepLength--);          //delay
 	}
+	pthread_exit(NULL);
 }
 
 int main(int argc, char* argv[])
@@ -57,7 +58,7 @@ int main(int argc, char* argv[])
 	scanf("%c", &c);
 
 	rc=pthread_cancel(beepThread);
-	digitalWrite(BeepPin, HIGH); //beep off
+	digitalWrite(BeepPin, LOW ); //beep off
 	pinMode(BeepPin, INPUT);     //set GPIO0 input
 	return 0;
 }
