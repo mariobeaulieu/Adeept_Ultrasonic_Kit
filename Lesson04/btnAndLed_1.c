@@ -23,13 +23,9 @@ void myISR(void)
 	status = !status;	
 }
 
-/* The structure used for the argument contains only 1 integer.
- * I had to use a structure in order to have the thead return a value
- * to its calling program.
- */
-struct args {
-	int v;
-};
+// Global variable enter.
+// The pthread will change its value when ENTER will be pressed
+int enter=0;
 
 /***********************************************
 * Function waitForEnter
@@ -38,25 +34,16 @@ struct args {
 * pressed.
 * When pressed, it changes the value of its
 * parameter and then exit.
-* To be able to change the value of its parameter,
-* I had to use a structure for it.
-* pthreads require parameter to be a void* pointer
-* Passing a structure allows me to change the value in
-* the structure. 
 ***********************************************/
-void *waitForEnter(void* a)
+void *waitForEnter()
 {
 	char c;
-	struct args *myArgs;
-	myArgs = (struct args*)a;
 
 	printf("Press <ENTER> to terminate\n");
 	scanf("%c",&c);
 	printf("Closing thread\n");
 
-	printf("myArgs->v=%d\n",myArgs->v);
-	myArgs->v=0;
-	printf("myArgs->v=%d\n",myArgs->v);
+	enter++;
 
 	pthread_exit(0);
 }
@@ -64,7 +51,6 @@ void *waitForEnter(void* a)
 int main(void)
 {
 	int rc;
-	struct args myArgs;
 	int prevStatus=2;
 	pthread_t waitThread;
 
@@ -88,15 +74,14 @@ int main(void)
 
 	// Start the thread that monitors the keyboard for ENTER
 	// That thread will change t for 0 when ENTER is pressed
-	myArgs.v=1;
-	rc = pthread_create( &waitThread, NULL, waitForEnter, (void*)(&myArgs));
+	rc = pthread_create( &waitThread, NULL, waitForEnter, NULL);
 	if ( rc ) {
 		printf("Error %d when creating the thread to read keyboard\n", rc);
 		return -1;
 	}
 
 	/* The pthread will change the value of myArgs.v when ENTER will e pressed */
-	while(myArgs.v > 0){
+	while(enter == 0){
 		if ( prevStatus != status ) {
 			digitalWrite(LedPin, status);
 			prevStatus = status;
@@ -104,7 +89,7 @@ int main(void)
 		}
 	}
 
-	// ENTER has been pressed and value of t has changed
+	// ENTER has been pressed
 	printf("Closing program\n");
 
 	// Set LED to input
@@ -112,7 +97,7 @@ int main(void)
 	pinMode(LedPin, INPUT);
 
 	// Make sure that thread is exited
-	pthread_join(waitThread, (void**)&rc);
+	pthread_join(waitThread, NULL);
 
 	return 0;
 }
