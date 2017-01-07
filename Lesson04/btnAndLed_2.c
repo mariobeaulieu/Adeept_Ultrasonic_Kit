@@ -34,13 +34,14 @@ int main(void)
 
 	pullUpDnControl(ButtonPin, PUD_UP);
 
+	printf("Press any key to reset board and exit program\n");
 	while(kbhit() == 0){
 		if(digitalRead(ButtonPin) == 0){
 			delay(10);
 			if(digitalRead(ButtonPin) == 0){
 				status = !status;
 				digitalWrite(LedPin, status);   //toggle the status of led	
-				printf("The status of led is toggled !\n");
+				printf("Status of led is %s\n",status==0?"ON":"OFF");
 			}
 			while(!digitalRead(ButtonPin));
 		}
