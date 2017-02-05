@@ -4,7 +4,8 @@
 * Website     : www.adeept.com
 * E-mail      : support@adeept.com
 * Author      : Jason
-* Date        : 2015/05/02
+* Modified by : Mario
+* Date        : 2017/01/15
 */
 #include <wiringPi.h>
 #include <stdio.h>
