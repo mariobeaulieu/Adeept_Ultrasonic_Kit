@@ -12,7 +12,7 @@ class Adafruit_CharLCD:
 
     # commands
     LCD_CLEARDISPLAY 		= 0x01
-    LCD_RETURNHOME 		    = 0x02
+    LCD_RETURNHOME		= 0x02
     LCD_ENTRYMODESET 		= 0x04
     LCD_DISPLAYCONTROL 		= 0x08
     LCD_CURSORSHIFT 		= 0x10
@@ -254,16 +254,20 @@ class Adafruit_CharLCD:
 
 def loop():
 	lcd = Adafruit_CharLCD()
-	while True:
-		lcd.clear()
-		lcd.message(" LCD 1602 Test \n123456789ABCDEF")
-		sleep(2)
-		lcd.clear()
-		lcd.message("   Hello, geeks !\nHello World ! :)")
-		sleep(2)
-		lcd.clear()
-		lcd.message("Welcom to --->\n  adeept.com")
-		sleep(2)
+	try:
+		while True:
+			lcd.clear()
+			lcd.message(" LCD 1602 Test \n123456789ABCDEF")
+			sleep(2)
+			lcd.clear()
+			lcd.message("   Hello, geeks !\nHello World ! :)")
+			sleep(2)
+			lcd.clear()
+			lcd.message("Bienvenue chez --->\n Mario Beaulieu")
+			sleep(2)
+	except KeyboardInterrupt:    
+        	lcd.clear()
 
 if __name__ == '__main__':
 	loop()
+
