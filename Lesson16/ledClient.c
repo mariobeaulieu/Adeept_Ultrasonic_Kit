@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
 	if(argc == 1)
 	{
-		printf("$ ./a.out server-IP\n");
+		printf("Usage:\n./%s server-IP\n",agv[0]);
 		return 1;
 	}
 	
