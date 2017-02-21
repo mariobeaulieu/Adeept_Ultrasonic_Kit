@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
 	if(argc == 1)
 	{
-		printf("Usage:\n./%s server-IP\n",agv[0]);
+		printf("Usage:\n%s server-IP\n",argv[0]);
 		return 1;
 	}
 	
@@ -59,7 +59,8 @@ int main(int argc, char *argv[])
 		printf("received:%s\n", buf);
 	}
 
-	close(client_sockfd);
+	// My compiler gives an error on Ubuntu for the close
+	//close(client_sockfd);
 		
 	return 0;
 }

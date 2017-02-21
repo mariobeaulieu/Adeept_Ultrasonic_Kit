@@ -36,12 +36,14 @@ def loop():
 				print 'led off'
 			else:
 				print 'error cmd !'
-		tcpSerSock.close()
+		tcpCliSock.close()
+		print "Connection closed\nWaiting for another one...\n"
 
 if __name__ == '__main__':
 	setup()
 	try:
 		loop()
 	except KeyboardInterrupt:
+		GPIO.setup(LedPin, GPIO.IN)   # Set pin mode as input
 		tcpSerSock.close()
 
